@@ -286,8 +286,25 @@ module.exports = function (db) {
             } catch (err) {
               res.status(500).json({ message: "error ambil data" })
             }
-
     })
+
+    router.put('/parking/add', (req, res,) => {
+    
+        try {
+            const {id_parking, location, current_capacity, total_capacity, price} = req.body
+            db.query('INSERT INTO parking VALUES ($1, $2, $3, $4, $5)', [id_parking, location, current_capacity, total_capacity, price], (err) => {
+                if (err) {
+                    console.error(err)
+                }
+            })
+            res.status(200).json({message: "ok"})
+            } catch (err) {
+                console.log(err)
+                res.status(500).json({ message: "error save data" })
+            }
+        })
+
+        
 
     return router;
 }
