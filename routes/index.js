@@ -232,5 +232,11 @@ module.exports = function (db) {
 
     })
 
+    router.get('/parking', (req, res) => {
+        const mode = 'parking'
+        res.render('parking', { mode, user: req.session.user })
+    })
+
+
     return router;
 }
