@@ -194,7 +194,7 @@ module.exports = function (db) {
                 db.query('INSERT INTO users VALUES ($1, $2, $3, $4)', [email, username, hash, role], (err) => {
                     if (err) return res.send(err)
                 })
-                res.redirect('/users')
+                res.redirect('/')
             });
         })
     })
