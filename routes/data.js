@@ -291,7 +291,7 @@ module.exports = function (db) {
     router.put('/parking/add', (req, res,) => {
     
         try {
-            const {id_parking, location, current_capacity, total_capacity, price} = req.body
+            const {id_parking, location, current_capacity, total_capacity, price} = req.query
             db.query('INSERT INTO parking VALUES ($1, $2, $3, $4, $5)', [id_parking, location, current_capacity, total_capacity, price], (err) => {
                 if (err) {
                     console.error(err)
@@ -304,7 +304,7 @@ module.exports = function (db) {
             }
         })
 
-        
+
 
     return router;
 }
