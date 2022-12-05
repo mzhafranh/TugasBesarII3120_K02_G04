@@ -9,6 +9,17 @@
         <!-- <div class="sidebar-brand-text mx-3">Z-POS<sup>V1.0</sup></div> -->
     </a>
 
+
+    <% if (user.role == "op") {%>
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item <%= mode == 'dashboard' ? 'active' : ''%>">
+            <a class="nav-link" href="/">
+                <i class="fa-solid fa-table-columns"></i>
+                <span>Dashboard</span></a>
+        </li>
+    <% } %>
+
+
     <!-- Divider -->
     <!-- <hr class="sidebar-divider my-0"> -->
 
@@ -19,7 +30,39 @@
             <i class="fa-solid fa-table-columns"></i>
             <span>Dashboard</span></a>
     </li>
+
+    
     <% } %>
+
+    <!-- Divider -->
+    <!-- <hr class="sidebar-divider"> -->
+
+    <!-- Heading -->
+    <% if (user.role == "op") {%>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+    
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Operator
+        </div>
+    
+        <!-- Nav Item - Charts -->
+        <li class="nav-item <%= mode == 'parking' ? 'active' : ''%>">
+            <a class="nav-link" href="/parking">
+                <i class="fa-solid fa-square-parking"></i>
+                <span>Parking</span></a>
+        </li>
+    
+        <!-- Nav Item - Tables -->
+        <li class="nav-item <%= mode == 'report' ? 'active' : ''%>">
+            <a class="nav-link" href="/report">
+                <i class="fa-solid fa-file"></i>
+                <span>Report</span></a>
+        </li>
+    
+        <% } %>
 
     <!-- Divider -->
     <!-- <hr class="sidebar-divider"> -->
@@ -42,19 +85,7 @@
             <span>Parking</span></a>
     </li>
 
-    <!-- Nav Item - Charts -->
-    <li class="nav-item <%= mode == 'item2' ? 'active' : ''%>">
-        <a class="nav-link" href="/apireq">
-            <i class="fa-solid fa-code-pull-request"></i>
-            <span>API Request</span></a>
-    </li>
 
-    <!-- Nav Item - Tables -->
-    <li class="nav-item <%= mode == 'report' ? 'active' : ''%>">
-        <a class="nav-link" href="/report">
-            <i class="fa-solid fa-file"></i>
-            <span>Report</span></a>
-    </li>
 
 
     <!-- Nav Item - Pages Collapse Menu -->

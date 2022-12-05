@@ -227,5 +227,67 @@ module.exports = function (db) {
         }
     })
 
+    router.get('/parking', (req, res,) => {
+        const page = req.query.page || 1;
+        const limit = 5;
+        const offset = (page - 1) * limit;
+        const wheres = []
+        const values = []
+        const filter = req.url
+        var count = 1;
+        var sortBy = req.query.sortBy == '' ? `id_parking` : req.query.sortBy;
+        var order = req.query.order == '' ? `asc` : req.query.order;
+
+        console.log(req.query)
+        console.log(req.query.sortBy == '')
+
+        if (req.query.id_parking) {
+            wheres.push(`id_parking ilike '%' || $${count++} || '%'`);
+            values.push(req.query.id_parking);
+        }
+
+        if (req.query.location) {
+            wheres.push(`location ilike '%' || $${count++} || '%'`);
+            values.push(req.query.location);
+        }
+
+        let sql = 'SELECT COUNT(*) AS total FROM parking';
+        if (wheres.length > 0) {
+            sql += ` WHERE ${wheres.join(' AND ')}`
+        }
+
+        try{
+            db.query(sql, values, (err, data) => {
+                if (err) {
+                    console.error(err);
+                }
+                const totalPages = Math.ceil(data.rows[0].total / limit)
+                const totalData = data.rows[0].total 
+                sql = 'SELECT * FROM parking'
+                if (wheres.length > 0) {
+                    sql += ` WHERE ${wheres.join(' AND ')}`
+                }
+                sql += ` ORDER BY ${sortBy} ${order} LIMIT $${count++} OFFSET $${count++}`;
+                console.log('SQL: ' + sql)
+                console.log([...values, limit, offset])
+                db.query(sql, [...values, limit, offset], (err, data) => {
+                    if (err) {
+                        console.error(err);
+                    }
+                    res.status(200).json({
+                        data: data.rows,
+                        totalData,
+                        totalPages,
+                        display: limit,
+                        page: parseInt(page)
+                      })
+                })
+            })
+            } catch (err) {
+              res.status(500).json({ message: "error ambil data" })
+            }
+
+    })
+
     return router;
 }
